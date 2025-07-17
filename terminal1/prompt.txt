@@ -1,0 +1,4 @@
+in this directory create a file named seans_tools_mcp_server.py
+this will be a local MCP Server i can use with a client such as Amazon Q developer CLI or Cline. 
+It includes tools such as: get_random_number, math_add, math_subtract, math_divide, math_multiply, get_random_number_list
+Build this now, once complete add the configuration into this mcp.json file: ./terminal2/.amazonq/mcp.json so i can test it with Amazon Q Developer CLI (or cline)

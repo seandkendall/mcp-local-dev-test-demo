@@ -76,6 +76,36 @@ async def handle_list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            name="get_random_choice",
+            description="Pick random item(s) from a provided list of choices",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "choices": {
+                        "type": "array",
+                        "description": "List of items to choose from",
+                        "items": {
+                            "type": ["string", "number", "boolean"]
+                        },
+                        "minItems": 1
+                    },
+                    "count": {
+                        "type": "integer",
+                        "description": "Number of items to select (default: 1)",
+                        "default": 1,
+                        "minimum": 1
+                    },
+                    "allow_duplicates": {
+                        "type": "boolean",
+                        "description": "Allow selecting the same item multiple times (default: false)",
+                        "default": False
+                    }
+                },
+                "required": ["choices"],
+                "additionalProperties": False
+            }
+        ),
+        Tool(
             name="math_add",
             description="Add two numbers together",
             inputSchema={
@@ -181,6 +211,30 @@ async def handle_call_tool(name: str, arguments: dict | None) -> list[TextConten
         
         numbers = [random.uniform(min_val, max_val) for _ in range(count)]
         return [TextContent(type="text", text=f"Random numbers: {numbers}")]
+    
+    elif name == "get_random_choice":
+        if not arguments or "choices" not in arguments:
+            return [TextContent(type="text", text="Error: 'choices' parameter is required")]
+        
+        choices = arguments["choices"]
+        count = arguments.get("count", 1)
+        allow_duplicates = arguments.get("allow_duplicates", False)
+        
+        if not choices:
+            return [TextContent(type="text", text="Error: choices list cannot be empty")]
+        
+        if count > len(choices) and not allow_duplicates:
+            return [TextContent(type="text", text=f"Error: cannot select {count} unique items from {len(choices)} choices. Set allow_duplicates=true or reduce count.")]
+        
+        if count == 1:
+            result = random.choice(choices)
+            return [TextContent(type="text", text=f"Random choice: {result}")]
+        else:
+            if allow_duplicates:
+                result = [random.choice(choices) for _ in range(count)]
+            else:
+                result = random.sample(choices, count)
+            return [TextContent(type="text", text=f"Random choices: {result}")]
     
     elif name == "math_add":
         if not arguments or "a" not in arguments or "b" not in arguments:
