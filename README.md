@@ -139,7 +139,7 @@ Pick 3 random items from this list: ["apple", "banana", "cherry", "date", "elder
 
 ## Configuration Details
 
-The MCP configuration (`terminal2/.amazonq/mcp.json`) connects Amazon Q to your local server:
+The MCP configuration (`terminal2/.amazonq/mcp.json`) connects Amazon Q to your local server using portable relative paths:
 
 ```json
 {
@@ -153,10 +153,21 @@ The MCP configuration (`terminal2/.amazonq/mcp.json`) connects Amazon Q to your 
 }
 ```
 
-This tells Amazon Q to:
-- Run your Python MCP server
-- Use the relative path to find your server file
-- Load it as "seans-tools" in the MCP ecosystem
+This configuration:
+- Uses relative paths that work on any machine
+- Uses generic `python` command (assumes Python is in PATH)
+- Only includes the local server by default
+- Works immediately after cloning the repository
+
+### Cloud Deployment
+
+When you run the cloud deployment script (`terminal1/cdk-cloud-deployed-version/deploy.sh`), it will:
+- Deploy the MCP server to AWS
+- Automatically update your local `mcp.json` to include both local and cloud servers
+- Create a backup of your original configuration
+- Restore the local-only configuration when the stack is destroyed
+
+This ensures the repository remains portable while supporting both local development and cloud deployment.
 
 ## Extending the Demo
 

@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "seans-tools": {
+      "command": "python",
+      "args": ["../terminal1/seans_tools_mcp_server.py"],
+      "env": {}
+    },
+    "seans-tools-cloud": {
+      "command": "python",
+      "args": [
+        "../terminal1/cdk-cloud-deployed-version/cloud_mcp_proxy.py",
+        "{{CLOUD_MCP_URL}}"
+      ],
+      "env": {}
+    }
+  }
+}

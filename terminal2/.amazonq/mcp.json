@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "seans-tools": {
-      "command": "/Users/seandall/Downloads/mark-h-example/terminal1/mcp_env/bin/python",
-      "args": ["/Users/seandall/Downloads/mark-h-example/terminal1/seans_tools_mcp_server.py"],
+      "command": "python",
+      "args": ["../terminal1/seans_tools_mcp_server.py"],
       "env": {}
     }
   }
